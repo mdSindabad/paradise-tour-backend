@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient } = require("mongodb");
 require('dotenv').config();
+const { MongoClient } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
+
 
 
 // initialize express app
@@ -21,10 +23,22 @@ async function run() {
         const database = client.db('paradise_travel');
         const destinations = database.collection('destinations');
 
+
+
+        // get all services
         app.get('/', async (req, res) => {
             const cursor = destinations.find({});
             const data = await cursor.toArray();
             res.json(data)
+        });
+
+        // get single service
+        app.get('/service/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const destination = await destinations.findOne(query);
+
+            res.json(destination)
         })
 
     } finally {
