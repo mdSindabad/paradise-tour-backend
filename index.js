@@ -26,7 +26,7 @@ async function run() {
 
 
         // get all services
-        app.get('/', async (req, res) => {
+        app.get('/service', async (req, res) => {
             const cursor = destinations.find({});
             const data = await cursor.toArray();
             res.json(data)
