@@ -23,7 +23,7 @@ async function run() {
         const database = client.db('paradise_travel');
         const destinations = database.collection('destinations');
         const teams = database.collection('teams');
-
+        const purchases = database.collection('purchases');
 
 
         // get all services
@@ -47,6 +47,13 @@ async function run() {
             const destination = await destinations.findOne(query);
 
             res.json(destination)
+        })
+
+        // get single service
+        app.post('/purchase', async (req, res) => {
+            const data = req.body;
+            const result = await purchases.insertOne(data);
+            res.json(result)
         })
 
     } finally {
