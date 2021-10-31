@@ -49,7 +49,13 @@ async function run() {
             res.json(destination)
         })
 
-        // get single service
+        // get purchases
+        app.get('/purchase', async (req, res) => {
+            const cursor = purchases.find({});
+            const data = await cursor.toArray();
+            res.json(data)
+        })
+        // post purchases
         app.post('/purchase', async (req, res) => {
             const data = req.body;
             const result = await purchases.insertOne(data);
