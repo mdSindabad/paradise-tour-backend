@@ -22,12 +22,20 @@ async function run() {
         await client.connect();
         const database = client.db('paradise_travel');
         const destinations = database.collection('destinations');
+        const teams = database.collection('teams');
 
 
 
         // get all services
         app.get('/service', async (req, res) => {
             const cursor = destinations.find({});
+            const data = await cursor.toArray();
+            res.json(data)
+        });
+
+        // get all team members
+        app.get('/teams', async (req, res) => {
+            const cursor = teams.find({});
             const data = await cursor.toArray();
             res.json(data)
         });
