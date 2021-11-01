@@ -33,6 +33,13 @@ async function run() {
             res.json(data)
         });
 
+        // add services
+        app.post('/add-destination', async (req, res) => {
+            const data = req.body;
+            const result = await destinations.insertOne(data);
+            res.json(result)
+        })
+
         // get all team members
         app.get('/teams', async (req, res) => {
             const cursor = teams.find({});
