@@ -55,11 +55,35 @@ async function run() {
             const data = await cursor.toArray();
             res.json(data)
         })
+
         // post purchases
         app.post('/purchase', async (req, res) => {
             const data = req.body;
             const result = await purchases.insertOne(data);
             res.json(result)
+        })
+
+        // update status
+        app.post('/update-status/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateDoc = {
+                $set: {
+                    status: req.body.status
+                },
+            };
+            const query = { _id: ObjectId(id) }
+            const result = await purchases.updateOne(query, updateDoc);
+
+            res.send(result)
+        })
+
+        // cancel order
+        app.post('/cancel-order/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await purchases.deleteOne(query);
+
+            res.send(result)
         })
 
     } finally {
